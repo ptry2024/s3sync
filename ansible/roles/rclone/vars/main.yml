@@ -1,0 +1,14 @@
+--- 
+rclone_username: "rclone"
+rclone_version: "v1.68.2"
+rclone_dl: "/opt/{{ rclone_username }}"
+rclone_config: "{{ rclone_dl }}/rclone.conf"
+rclone_tarball_uncompressed_name: "rclone"
+rclone_tarball_uncompress_dir: "/opt/rclone-{{ rclone_version }}"
+rclone_tarball_dest: "/opt/rclone-{{ rclone_version }}-linux-amd64.zip"
+rclone_tarball_uncompressed_fullpath: "{{ rclone_tarball_uncompress_dir }}/rclone-{{ rclone_version }}-linux-amd64/{{ rclone_tarball_uncompressed_name }}"
+rclone_url: "https://github.com/rclone/rclone/releases/download/{{ rclone_version }}/rclone-{{ rclone_version }}-linux-amd64.zip"
+rclone_checksum: "sha256:0e6fa18051e67fc600d803a2dcb10ddedb092247fc6eee61be97f64ec080a13c"
+---
+src_bucket_name: "bk-trietnguyen-stc"
+dest_bucket_name: "des-tnguyen547-stc"

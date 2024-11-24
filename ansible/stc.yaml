@@ -1,0 +1,12 @@
+---
+#################################################
+## S3 POC
+#################################################
+
+- hosts: stc-s3-poc
+  become: true
+  become_user: root
+
+  roles:
+  - { role: rclone,
+      tags: [ 'rclone' ] }

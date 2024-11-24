@@ -1,0 +1,82 @@
+---
+- name: install dependencies
+  apt:
+    name: [ "unzip"]
+
+- name: create rclone user
+  user:
+    name: "{{ rclone_username }}"
+    home: "/home/{{ rclone_username }}"
+    shell: /bin/bash
+
+- name: create directory for rclone
+  file:
+    path: "{{ rclone_dl}}"
+    state: directory
+    owner: "{{ rclone_username }}"
+    group: "{{ rclone_username }}"
+
+- name: create untarball directory for rclone
+  file:
+    path: "{{ rclone_tarball_uncompress_dir }}"
+    state: directory
+    owner: "{{ rclone_username }}"
+    group: "{{ rclone_username }}"
+
+- name: download rclone tarball {{ rclone_version }}
+  get_url:
+    url: "{{ rclone_url }}"
+    dest: "{{ rclone_tarball_dest }}"
+    checksum: "{{ rclone_checksum }}"
+    owner: "{{ rclone_username }}"
+    group: "{{ rclone_username }}"
+    mode: 0700
+  register: rclone_download
+
+- name: does uncompressed fullpath exist for rclone {{ rclone_version }}
+  stat:
+    path: "{{ rclone_tarball_uncompressed_fullpath }}"
+  register: uncompressed_tarball
+
+- name: unpack rclone tarball {{ rclone_version }}
+  unarchive:
+    src: "{{ rclone_tarball_dest }}"
+    remote_src: yes
+    dest: "{{ rclone_tarball_uncompress_dir }}"
+  when: rclone_download.changed or uncompressed_tarball.stat.exists == false
+  register: rclone_tar_unpack
+
+- name: does bin symlink1 exist
+  stat:
+    path: /usr/local/bin/rclone
+  register: bin_syml1
+
+- name: symlink binary1 from /usr/local/bin to /opt
+  file:
+    src: "{{ rclone_tarball_uncompressed_fullpath }}"
+    dest: "/usr/local/bin/rclone"
+    state: link
+  when: rclone_download.changed or rclone_tar_unpack.changed or bin_syml1.stat.exists == false
+  notify:
+    - restart rclone
+
+- name: copy rclone config file
+  template:
+    src: rclone.conf
+    dest: "{{ rclone_dl }}"
+    owner: "{{ rclone_username }}"
+    group: "{{ rclone_username }}"
+    mode: 0600
+
+- name: install rclone service
+  template:
+    src: rclone.service
+    dest: /etc/systemd/system/
+  notify:
+  - reload systemd
+  - restart rclone
+
+- name: enable rclone service on boot
+  service:
+    name: rclone
+    enabled: true

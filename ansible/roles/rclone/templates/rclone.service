@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+[Unit]
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/{{ rclone_username }}/
+ExecStart=rclone sync stc-src:{{ src_bucket_name }} stc-dest:{{ dest_bucket_name }} --config {{ rclone_config }} --transfers 16 --checkers 16 --s3-upload-concurrency 8 --s3-chunk-size 16Mi --fast-list --checksum --update --use-server-modtime -P --log-level DEBUG --syslog --syslog-facility LOG_USER
+PrivateTmp=true
+User={{ rclone_username }}
+Group={{ rclone_username }}
+SyslogIdentifier={{ rclone_username }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

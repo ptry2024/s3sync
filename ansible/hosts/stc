@@ -1,0 +1,6 @@
+all:
+  hosts:
+    stc-s3-poc:
+      ansible_host: 103.172.236.192
+      internal_ip: 103.172.236.192
+      external_ip: 103.172.236.192
