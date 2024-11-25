@@ -4,6 +4,9 @@
 
 - name: restart rclone
   service:
-    name: rclone
+    name: "{{ item }}"
     state: restarted
     enabled: true
+  with_items:
+    - "rclone.service"
+    - "rclone.timer"

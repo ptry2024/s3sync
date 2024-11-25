@@ -68,15 +68,21 @@
     group: "{{ rclone_username }}"
     mode: 0600
 
-- name: install rclone service
+- name: install rclone service and rclone timer
   template:
-    src: rclone.service
+    src: "{{ item }}"
     dest: /etc/systemd/system/
+  with_items:
+    - "rclone.service"
+    - "rclone.timer"
   notify:
   - reload systemd
   - restart rclone
 
-- name: enable rclone service on boot
+- name: enable rclone service and rclone timer on boot
   service:
-    name: rclone
+    name: "{{ item }}"
     enabled: true
+  with_items:
+    - "rclone.service"
+    - "rclone.timer"
