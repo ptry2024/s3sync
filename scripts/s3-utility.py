@@ -29,9 +29,6 @@ def uploadObj(session, bucket_name, file_name, obj_name):
 def delObj(session, bucket_name, file_name):
     session.delete_object(Bucket=bucket_name, Key=file_name)
 
-def transferObj(session, source_bucket, destination_bucket, file_name):
-    session.copy_object(Bucket=destination_bucket, CopySource=source_bucket/file_name, Key=file_name)
-
 def main():
     # init session to source bucket
     srcSession = initSession(SRC_ACCESS_KEY, SRC_ACCESS_SECRET)
@@ -45,9 +42,6 @@ def main():
     # delete obj
     # delObj(desSession, DST_BUCKET_NAME, 'ubuntu-24.04.1-desktop-amd64.iso')
 
-    # transfer obj
-    transferObj
-    
     # list objs in source bucket
     srcListObjs = listObj(srcSession, SRC_BUCKET_NAME)
     for srcObj in srcListObjs['Contents']:
