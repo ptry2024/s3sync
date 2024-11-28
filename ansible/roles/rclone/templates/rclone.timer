@@ -1,10 +1,10 @@
 # {{ ansible_managed }}
 [Unit]
-Description="Run rclone.service 5min after boot and every 15 minutes relative to activation time"
+Description="Run rclone.service 5min after boot and every minute relative to activation time"
 
 [Timer]
 OnBootSec=5min
-OnCalendar=*:0/15
+OnCalendar=*:0/1
 Unit=rclone.service
 
 [Install]

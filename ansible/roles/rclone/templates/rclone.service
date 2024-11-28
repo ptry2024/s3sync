@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/opt/{{ rclone_username }}/
-ExecStart=rclone sync stc-src:{{ src_bucket_name }} stc-dest:{{ dest_bucket_name }} --config {{ rclone_config }} --transfers 16 --checkers 16 --s3-upload-concurrency 8 --s3-chunk-size 16Mi --fast-list --checksum --update --use-server-modtime -P --metrics-addr 127.0.0.1:9000 --log-level DEBUG --syslog --syslog-facility USER
+ExecStart=rclone sync stc-src:{{ src_bucket_name }} stc-dest:{{ dest_bucket_name }} --config {{ rclone_config }} --dry-run --interactive --ignore-existing --transfers 16 --checkers 16 --s3-upload-concurrency 8 --s3-chunk-size 16Mi --fast-list --checksum -P --metrics-addr 127.0.0.1:9000 --log-level DEBUG --log-file /home/{{ rclone_username }}/logs/rclone.log --use-json-log
 PrivateTmp=true
 User={{ rclone_username }}
 Group={{ rclone_username }}

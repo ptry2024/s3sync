@@ -1,0 +1,8 @@
+---
+
+- name: download docker-compose
+  get_url:
+    mode: 0777
+    url: "{{ docker_compose_url }}"
+    dest: "/usr/local/bin/docker-compose"
+    checksum: "{{ docker_compose_checksum }}"
