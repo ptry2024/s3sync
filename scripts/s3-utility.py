@@ -37,10 +37,10 @@ def main():
     desSession = initSession(DST_ACCESS_KEY, DST_ACCESS_SECRET)
 
     # upload file to source bucket
-    # uploadObj(desSession, DST_BUCKET_NAME, '/home/phuctruong/Downloads/ubuntu-24.04.1-desktop-amd64.iso', 'ubuntu-24.04.1-desktop-amd64.iso')
+    # uploadObj(srcSession, SRC_BUCKET_NAME, '/home/phuctruong/Downloads/ubuntu-24.04.1-desktop-amd64.iso', 'ubuntu-24.04.1-desktop-amd64.iso')
 
     # delete obj
-    # delObj(desSession, DST_BUCKET_NAME, 'ubuntu-24.04.1-desktop-amd64.iso')
+    # delObj(desSession, DST_BUCKET_NAME, 's3/s3sync.png')
 
     # list objs in source bucket
     srcListObjs = listObj(srcSession, SRC_BUCKET_NAME)

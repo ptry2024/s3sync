@@ -10,3 +10,6 @@
   roles:
   - { role: rclone,
       tags: [ 'rclone' ] }
+  - { role: docker-service,
+      docker_compose_install: true,
+      tags: [ 'docker' ] }
